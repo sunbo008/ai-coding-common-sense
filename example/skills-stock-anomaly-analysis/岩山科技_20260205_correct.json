@@ -1,0 +1,118 @@
+{
+  "stock": {
+    "code": "002195",
+    "name": "岩山科技",
+    "sector": "AI+人形机器人+智能驾驶",
+    "price": 9.93,
+    "price_time": "2026-02-05 15:00 (腾讯财经API)",
+    "change_pct": -1.59,
+    "volume": "4.45亿",
+    "turnover": "8.02%",
+    "high": 10.15,
+    "low": 9.76,
+    "prev_close": 10.09,
+    "open": 9.96,
+    "anomaly_type": "震荡下跌"
+  },
+  "analysis_date": "2026-02-05",
+  "triggers": [
+    {
+      "type": "资金面",
+      "title": "主力资金大幅流出",
+      "detail": "今日主力净流出5.67亿元，其中超大单净流出3.81亿元，大单净流出1.87亿元。内盘(259.81万手)明显大于外盘(189.62万手)，抛压沉重。",
+      "date": "2026-02-05",
+      "source": "东方财富API",
+      "url": "https://data.eastmoney.com/zjlx/002195.html",
+      "verified": true,
+      "verify_note": "数据来自东方财富push2接口实时获取",
+      "impact": "negative",
+      "freshness": "today",
+      "weight": 50
+    },
+    {
+      "type": "技术面",
+      "title": "近期高位震荡，短线承压",
+      "detail": "股价从1月23日高点10.76元回落，近5日走势震荡。今日低开低走，收盘价9.93元失守10元整数关口。",
+      "date": "2026-02-05",
+      "source": "东方财富K线数据",
+      "url": "https://quote.eastmoney.com/sz002195.html",
+      "verified": true,
+      "verify_note": "数据来自东方财富K线API",
+      "impact": "negative",
+      "freshness": "today",
+      "weight": 30
+    }
+  ],
+  "background": [
+    {
+      "title": "纽劢科技获3.39亿国际智驾大单",
+      "detail": "2025年9月26日，子公司纽劢科技与国际头部汽配商签署《通用定价协议》，预计2026-2030年销售收入约3.39亿元。",
+      "date": "2025-09-26",
+      "source": "界面新闻",
+      "url": "https://www.jiemian.com/article/13408972.html",
+      "verified": true,
+      "verify_note": "WebFetch确认页面包含纽劢科技、3.39亿、2026-2030年等关键信息"
+    },
+    {
+      "title": "绑定宇树科技-人形机器人核心供应商",
+      "detail": "公司是宇树科技Yan1.3多模态大模型的核心供应商，受益于2026年人形机器人量产预期。",
+      "date": "2025年",
+      "source": "公开信息",
+      "url": "https://www.yicai.com/news/103009810.html",
+      "verified": true,
+      "verify_note": "WebFetch确认第一财经页面包含人形机器人行业分析"
+    }
+  ],
+  "fund_flow": {
+    "main_net": "-5.67亿",
+    "super_big_net": "-3.81亿",
+    "big_net": "-1.87亿",
+    "mid_net": "+1.01亿",
+    "small_net": "+4.67亿",
+    "date": "2026-02-05",
+    "verified": true,
+    "source": "东方财富API",
+    "source_url": "https://data.eastmoney.com/zjlx/002195.html"
+  },
+  "dragon_tiger": {
+    "date": "2026-02-05",
+    "reason": "今日无龙虎榜数据",
+    "buy_seats": [],
+    "sell_seats": [],
+    "verified": true,
+    "source_url": "https://data.eastmoney.com/stock/tradedetail.html"
+  },
+  "outlook": {
+    "short_term": "短期承压。今日主力资金大幅流出5.67亿，股价失守10元关口。下方支撑位9.76元(今日最低)，若跌破则看向9.54元(1月29日最低)。上方压力位10.15元(今日最高)。",
+    "mid_term": "中期仍具想象空间。公司布局人形机器人(宇树供应商)+智能驾驶(纽劢科技)双主线，2026年为人形机器人量产元年，基本面逻辑未变。但短期需消化前期涨幅和主力获利盘。",
+    "risks": [
+      "主力资金持续流出风险",
+      "人形机器人概念炒作退潮",
+      "智驾订单为框架协议，存执行不确定性",
+      "大盘系统性风险"
+    ]
+  },
+  "sources": [
+    {
+      "title": "实时行情数据",
+      "url": "https://qt.gtimg.cn/q=sz002195",
+      "date": "2026-02-05",
+      "source": "腾讯财经API",
+      "verified": true
+    },
+    {
+      "title": "资金流向数据",
+      "url": "https://data.eastmoney.com/zjlx/002195.html",
+      "date": "2026-02-05",
+      "source": "东方财富API",
+      "verified": true
+    },
+    {
+      "title": "K线历史数据",
+      "url": "https://quote.eastmoney.com/sz002195.html",
+      "date": "2026-02-05",
+      "source": "东方财富API",
+      "verified": true
+    }
+  ]
+}

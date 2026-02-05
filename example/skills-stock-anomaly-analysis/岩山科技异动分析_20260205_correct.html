@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>岩山科技(002195) 异动分析报告</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+        
+        .container { max-width: 1000px; margin: 0 auto; }
+        
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { font-size: 28px; color: #fff; margin-bottom: 10px; }
+        .header .date { color: #888; font-size: 14px; }
+        
+        .stock-card {
+            background: linear-gradient(135deg, #2a2a40 0%, #1a1a2e 100%);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #3a3a5a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .stock-info { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .stock-name { font-size: 24px; font-weight: bold; color: #fff; }
+        .stock-code { font-size: 14px; color: #888; background: #3a3a5a; padding: 4px 12px; border-radius: 20px; }
+        .stock-sector { font-size: 14px; color: #888; }
+        
+        .stock-price-container { text-align: right; }
+        .stock-price { font-size: 32px; font-weight: bold; color: #22c55e; }
+        .stock-change { font-size: 18px; color: #22c55e; }
+        .price-time { font-size: 12px; color: #666; margin-top: 4px; }
+        .market-data { font-size: 12px; color: #888; margin-top: 4px; }
+        
+        .anomaly-badge {
+            background: #6b7280;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .section {
+            background: #2a2a40;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #3a3a5a;
+        }
+        
+        .section h2 {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #4a4a6a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section h2::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(to bottom, #6366f1, #8b5cf6);
+            border-radius: 2px;
+        }
+        
+        /* 触发因素样式 */
+        .trigger-card {
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid #3a3a5a;
+        }
+        
+        .trigger-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .trigger-type {
+            background: #4a4a6a;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .freshness-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .freshness-badge.today {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        
+        .freshness-badge.recent {
+            background: #6366f1;
+            color: white;
+        }
+        
+        .freshness-badge.week {
+            background: #4a4a6a;
+            color: #ccc;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .trigger-impact {
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .trigger-weight {
+            color: #888;
+            font-size: 12px;
+            margin-left: auto;
+        }
+        
+        .trigger-title { font-size: 16px; color: #fff; margin-bottom: 8px; }
+        .trigger-detail { font-size: 14px; color: #aaa; line-height: 1.6; }
+        
+        .trigger-source {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #3a3a5a;
+            font-size: 12px;
+            display: flex;
+            gap: 16px;
+        }
+        
+        .info-date { color: #888; }
+        .info-source { color: #6366f1; text-decoration: none; }
+        .info-source:hover { text-decoration: underline; }
+        
+        /* 资金流向样式 */
+        .fund-flow {
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #3a3a5a;
+        }
+        
+        .fund-header {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .fund-date { font-size: 12px; color: #888; }
+        
+        .fund-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .fund-item { text-align: center; }
+        .fund-label { font-size: 12px; color: #888; margin-bottom: 4px; }
+        .fund-value { font-size: 18px; font-weight: bold; }
+        
+        /* 龙虎榜样式 */
+        .dragon-tiger {
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #3a3a5a;
+        }
+        
+        .dragon-header {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .dragon-date { font-size: 12px; color: #888; }
+        .dragon-reason { font-size: 12px; color: #666; }
+        
+        .dragon-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .dragon-title {
+            font-size: 13px;
+            padding: 6px;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        
+        .dragon-title.buy { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .dragon-title.sell { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        
+        .seat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 8px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+        
+        .seat-item.buy { background: rgba(239, 68, 68, 0.1); }
+        .seat-item.sell { background: rgba(34, 197, 94, 0.1); }
+        .seat-name { color: #ccc; }
+        .seat-amount { color: #888; }
+        
+        /* 背景信息样式 */
+        .bg-timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .bg-timeline::before {
+            content: "";
+            position: absolute;
+            left: 6px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #3a3a5a;
+        }
+        
+        .bg-item {
+            position: relative;
+            padding: 12px 0 12px 20px;
+            border-bottom: 1px dashed #3a3a5a;
+        }
+        
+        .bg-item:last-child { border-bottom: none; }
+        
+        .bg-item::before {
+            content: "";
+            position: absolute;
+            left: -17px;
+            top: 18px;
+            width: 10px;
+            height: 10px;
+            background: #6366f1;
+            border-radius: 50%;
+        }
+        
+        .bg-date {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+        
+        .bg-title {
+            font-size: 14px;
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .bg-detail {
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+        
+        .bg-source {
+            font-size: 12px;
+            color: #6366f1;
+            text-decoration: none;
+        }
+        
+        /* 展望样式 */
+        .outlook-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        
+        .outlook-card {
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #3a3a5a;
+        }
+        
+        .outlook-card h3 {
+            font-size: 14px;
+            color: #6366f1;
+            margin-bottom: 10px;
+        }
+        
+        .outlook-card p {
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .risks-card {
+            background: linear-gradient(135deg, #2a1a1a 0%, #1e1e2e 100%);
+            border: 1px solid #5a3a3a;
+        }
+        
+        .risks-card h3 { color: #ef4444; }
+        .risks-card ul { list-style: none; }
+        .risks-card li {
+            font-size: 14px;
+            color: #ccc;
+            padding: 6px 0 6px 20px;
+            position: relative;
+        }
+        .risks-card li::before {
+            content: "⚠️";
+            position: absolute;
+            left: 0;
+            font-size: 12px;
+        }
+        
+        /* 来源样式 */
+        .sources {
+            margin-top: 20px;
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #3a3a5a;
+        }
+        
+        .sources h3 {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #3a3a5a;
+        }
+        
+        .sources ul { list-style: none; }
+        .sources li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #2a2a40;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .sources li:last-child { border-bottom: none; }
+        .sources a { color: #6366f1; text-decoration: none; font-size: 14px; }
+        .sources a:hover { text-decoration: underline; }
+        .source-meta { font-size: 12px; color: #666; }
+        
+        .disclaimer {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 30px;
+            padding: 20px;
+            border-top: 1px solid #3a3a5a;
+        }
+        
+        @media (max-width: 600px) {
+            .stock-card { flex-direction: column; text-align: center; }
+            .stock-price-container { text-align: center; }
+            .fund-grid { grid-template-columns: 1fr; }
+            .dragon-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 个股异动分析报告</h1>
+            <div class="date">分析日期: 2026-02-05</div>
+        </div>
+        
+        <div class="stock-card">
+            <div class="stock-info">
+                <span class="stock-name">岩山科技</span>
+                <span class="stock-code">002195</span>
+                <span class="stock-sector">AI+人形机器人+智能驾驶</span>
+            </div>
+            <div class="stock-price-container">
+                <div class="stock-price">¥9.93</div>
+                <div class="stock-change">-1.59%</div>
+                <div class="price-time">📅 2026-02-05 15:00 (腾讯财经API)</div>
+                <div class="market-data">成交额: 4.45亿 | 换手率: 8.02% | 振幅: 10.15-9.76</div>
+            </div>
+            <span class="anomaly-badge">震荡下跌</span>
+        </div>
+        
+        <div class="section">
+            <h2>🔥 近期触发因素</h2>
+            
+        <div class="trigger-card">
+            <div class="trigger-header">
+                <span class="trigger-type">资金面</span>
+                <span class="freshness-badge today">今日</span>
+                <span class="trigger-impact" style="background: #ef4444">利空</span>
+                <span class="trigger-weight">权重 50%</span>
+            </div>
+            <h4 class="trigger-title">主力资金大幅流出</h4>
+            <p class="trigger-detail">今日主力净流出5.67亿元，其中超大单净流出3.81亿元，大单净流出1.87亿元。内盘(259.81万手)明显大于外盘(189.62万手)，抛压沉重。</p>
+            <div class="trigger-source"><span class="info-date">📅 2026-02-05</span> <a href="https://data.eastmoney.com/zjlx/002195.html" target="_blank" class="info-source">🔗 东方财富API</a></div>
+        </div>
+        
+        <div class="trigger-card">
+            <div class="trigger-header">
+                <span class="trigger-type">技术面</span>
+                <span class="freshness-badge today">今日</span>
+                <span class="trigger-impact" style="background: #ef4444">利空</span>
+                <span class="trigger-weight">权重 30%</span>
+            </div>
+            <h4 class="trigger-title">近期高位震荡，短线承压</h4>
+            <p class="trigger-detail">股价从1月23日高点10.76元回落，近5日走势震荡。今日低开低走，收盘价9.93元失守10元整数关口。</p>
+            <div class="trigger-source"><span class="info-date">📅 2026-02-05</span> <a href="https://quote.eastmoney.com/sz002195.html" target="_blank" class="info-source">🔗 东方财富K线数据</a></div>
+        </div>
+        
+        </div>
+        
+        <div class="section">
+            <h2>💰 资金动向</h2>
+            
+        <div class="fund-flow">
+            <div class="fund-header">今日资金流向 <span class="fund-date">📅 2026-02-05</span></div>
+            <div class="fund-grid">
+                <div class="fund-item">
+                    <div class="fund-label">主力净流入</div>
+                    <div class="fund-value" style="color: #22c55e">-5.67亿</div>
+                </div>
+                <div class="fund-item">
+                    <div class="fund-label">北向资金</div>
+                    <div class="fund-value" style="color: #888">--</div>
+                </div>
+                <div class="fund-item">
+                    <div class="fund-label">大单净额</div>
+                    <div class="fund-value" style="color: #888">--</div>
+                </div>
+            </div>
+        </div>
+        
+            
+        <div class="dragon-tiger">
+            <div class="dragon-header">
+                龙虎榜 <span class="dragon-date">📅 2026-02-05</span>
+                <span class="dragon-reason">今日无龙虎榜数据</span>
+            </div>
+            <div class="dragon-grid">
+                <div class="dragon-col">
+                    <div class="dragon-title buy">买入前三</div>
+                    
+                </div>
+                <div class="dragon-col">
+                    <div class="dragon-title sell">卖出前三</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+            
+        </div>
+        
+        <div class="section">
+            <h2>📜 历史背景</h2>
+            <div class="bg-timeline">
+                
+        <div class="bg-item">
+            <div class="bg-date">2025-09-26</div>
+            <div class="bg-content">
+                <div class="bg-title">纽劢科技获3.39亿国际智驾大单</div>
+                <div class="bg-detail">2025年9月26日，子公司纽劢科技与国际头部汽配商签署《通用定价协议》，预计2026-2030年销售收入约3.39亿元。</div>
+                <a href="https://www.jiemian.com/article/13408972.html" target="_blank" class="bg-source">🔗 界面新闻</a>
+            </div>
+        </div>
+        
+        <div class="bg-item">
+            <div class="bg-date">2025年</div>
+            <div class="bg-content">
+                <div class="bg-title">绑定宇树科技-人形机器人核心供应商</div>
+                <div class="bg-detail">公司是宇树科技Yan1.3多模态大模型的核心供应商，受益于2026年人形机器人量产预期。</div>
+                <a href="https://www.yicai.com/news/103009810.html" target="_blank" class="bg-source">🔗 公开信息</a>
+            </div>
+        </div>
+        
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 走势预判</h2>
+            <div class="outlook-grid">
+                <div class="outlook-card">
+                    <h3>📈 短期展望</h3>
+                    <p>短期承压。今日主力资金大幅流出5.67亿，股价失守10元关口。下方支撑位9.76元(今日最低)，若跌破则看向9.54元(1月29日最低)。上方压力位10.15元(今日最高)。</p>
+                </div>
+                <div class="outlook-card">
+                    <h3>📊 中期展望</h3>
+                    <p>中期仍具想象空间。公司布局人形机器人(宇树供应商)+智能驾驶(纽劢科技)双主线，2026年为人形机器人量产元年，基本面逻辑未变。但短期需消化前期涨幅和主力获利盘。</p>
+                </div>
+                <div class="outlook-card risks-card">
+                    <h3>风险提示</h3>
+                    <ul><li>主力资金持续流出风险</li><li>人形机器人概念炒作退潮</li><li>智驾订单为框架协议，存执行不确定性</li><li>大盘系统性风险</li></ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sources">
+            <h3>📚 信息来源</h3>
+            <ul>
+        <li>
+            <a href="https://qt.gtimg.cn/q=sz002195" target="_blank">实时行情数据</a>
+            <span class="source-meta">[2026-02-05] - 腾讯财经API</span>
+        </li>
+        
+        <li>
+            <a href="https://data.eastmoney.com/zjlx/002195.html" target="_blank">资金流向数据</a>
+            <span class="source-meta">[2026-02-05] - 东方财富API</span>
+        </li>
+        
+        <li>
+            <a href="https://quote.eastmoney.com/sz002195.html" target="_blank">K线历史数据</a>
+            <span class="source-meta">[2026-02-05] - 东方财富API</span>
+        </li>
+        </ul>
+        </div>
+        
+        <div class="disclaimer">
+            ⚠️ 免责声明：本报告仅供参考，不构成任何投资建议。投资有风险，入市需谨慎。<br>
+            数据来源于公开信息，请以官方公告为准。
+        </div>
+    </div>
+</body>
+</html>
