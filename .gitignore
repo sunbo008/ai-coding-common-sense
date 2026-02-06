@@ -12,3 +12,13 @@
 # Temporary files
 *.tmp
 *.temp
+
+# Claude/AI config
+.claude/
+AGENTS.md
+
+# Project specific
+generate-ppt.js
+package.json
+package-lock.json
+node_modules/
